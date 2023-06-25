@@ -32,6 +32,7 @@ function App() {
   const [hasQueried, setHasQueried] = useState(false);
   const [tokenDataObjects, setTokenDataObjects] = useState([]);
   const [nftData, setNftData] = useState([]);
+  const [fetchingErr,setFetchingErr] = useState("");
 
   useAccount({
     onConnect({ address, connector, isReconnected }) {
@@ -41,6 +42,14 @@ function App() {
   })
 
   async function getNFTsForOwner() {
+    if (userAddress.length !==42){
+      setFetchingErr("Please input a valid Ethereum Address")
+      setTimeout(()=>{
+        setFetchingErr("");
+      },1500)
+      return;
+    }
+    else {
     setIsLoading(true);
     const config = {
       apiKey: import.meta.env.API_KEY,
@@ -50,14 +59,20 @@ function App() {
     const alchemy = new Alchemy(config);
     const data = await alchemy.nft.getNftsForOwner(userAddress);
     console.log("initial nft data:", data);
-    setIsLoading(false);
+    setTimeout(()=>{
+      setIsLoading(false);
+    },1500)
     setHasQueried(true);
     setNftData(data);
   }
+  }
   return (
     <Box w="100vw">
-      <Center>
+    <div className="centered" >
       <ConnectButton />
+    </div>
+    <Divider />
+      <Center marginTop={"25px"}>
         <Flex
           alignItems={'center'}
           justifyContent="center"
@@ -66,8 +81,8 @@ function App() {
           <Heading mb={0} fontSize={36}>
             NFT Indexer 🖼
           </Heading>
-          <Text>
-            Plug in an address and this website will return all of its NFTs!
+          <Text marginTop={"25px"}>
+            Connect your wallet or manually paste any address and this website will return all of its NFTs on the ETH mainnet network!
           </Text>
         </Flex>
       </Center>
@@ -77,7 +92,7 @@ function App() {
         alignItems="center"
         justifyContent={'center'}
       >
-        <Heading mt={42}>Get all the ERC-721 tokens of this address:</Heading>
+        <Heading mt={42} marginBottom={"35px"}>Get all the ERC-721 tokens (NFT) of this address:</Heading>
         <Input
           onChange={(e) => setUserAddress(e.target.value)}
           color="black"
@@ -88,9 +103,11 @@ function App() {
           bgColor="white"
           fontSize={24}
         />
-        <Button fontSize={20} onClick={getNFTsForOwner} mt={36} bgColor="#0098fd">
+        {fetchingErr && <p className='error'>{fetchingErr}</p>}
+        <Button fontSize={20} onClick={getNFTsForOwner} mt={36} border={"1px black solid"} bgColor="orange">
           Fetch NFTs
         </Button>
+        
         {(!isLoading && hasQueried) && <div className='margin-b'>
         <Divider/>
 
@@ -127,12 +144,12 @@ function App() {
               <CardFooter className='flexing'>
               <div className='flex-c'>
               <Text>Website</Text>
-              <Button><a target='_blank' href={nft.contract.openSea.externalUrl}><i class="fa-solid fa-globe"></i></a></Button>
+              <a target='_blank' href={nft.contract.openSea.externalUrl}><Button><i class="fa-solid fa-globe"></i></Button></a>
               </div>
               <Divider colorScheme='black' className='vertical' orientation='vertical' />
               <div className='flex-c'>
-              <Text>OpenSea</Text>
-              <Button><a target='_blank' href={`https://opensea.io/assets/ethereum/${nft.contract.address}`}><i class="fa-solid fa-store"></i></a></Button>
+              <Text>Opensea Page</Text>
+              <a target='_blank' href={`https://opensea.io/assets/ethereum/${nft.contract.address}`}><Button><i class="fa-solid fa-store"></i></Button></a>
               </div>
               </CardFooter>
             </Card>)
@@ -141,6 +158,10 @@ function App() {
           </div>
           </div>
           }
+          {isLoading && <div className='centered'><InfinitySpin 
+            width='200'
+            color="orange"
+          /></div>}
       </Flex>
     </Box>
   );

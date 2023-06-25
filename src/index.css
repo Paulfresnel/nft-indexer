@@ -138,3 +138,15 @@ button:focus-visible {
   margin-top: 35px;
   height: 35px;
 }
+
+.error{
+  color: red;
+  font-size: 1.5rem;
+}
+
+.centered{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 55px;
+  margin-top: 35px;
+}
