@@ -36,6 +36,9 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+a{
+  text-decoration: underline !important;
+}
 
 button {
   border-radius: 8px;
@@ -67,4 +70,71 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+.small-img{
+  width: 23vw;
+}
+.flex-r{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.flex-cards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 35px;
+}
+
+.card{
+  margin: 10px;
+  width: 23vw;
+}
+
+.title-main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px !important;
+  margin-bottom: 40px !important;
+}
+
+.nft-count{
+  color: orange;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 4rem;
+}
+
+.flex-c{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.flex-c  button{
+  margin-top: 10px !important;
+  color: #0098fd;
+  border: 1px black solid;
+  box-shadow: 1px 1px 4px black;
+}
+
+.vertical{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.flexing{
+  justify-content: space-evenly;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+.margin-b{
+  margin-top: 35px;
+  height: 35px;
 }
